@@ -625,28 +625,26 @@ class OverallDensity(object):
                                         better_approach_points[person].append((point_x, point_y))
 
             # Após processar as listas better_approach_points e approach_points, faça a verificação e mova os pontos para points_in_fov
-            for person in people:
-                points_to_move_better = []
-                points_to_move_approach = []
+                for person in guard_persons:
+                    points_to_move_better = []
+                    points_to_move_approach = []
                 
-                #with open('saida.txt', 'a') as arquivo:
-                for point in better_approach_points[person]:
-                   #print("ponto na lista better", file=arquivo)
-                    if any(self.is_point_back(people, point) for p in people if p != person):
-                       points_to_move_better.append(point)
+                    #with open('saida.txt', 'a') as arquivo:
+                    for point in better_approach_points[person]:
+                        #print("ponto na lista better", file=arquivo)
+                        if any(self.is_point_back(guard_persons, point) for p in guard_persons if p != person):
+                            points_to_move_better.append(point)
+                    for point in approach_points[person]:
+                        #print("ponto na lista approach",file=arquivo)
+                        if any(self.is_point_back(guard_persons, point) for p in guard_persons if p != person):
+                            points_to_move_approach.append(point)
+                    better_approach_points[person] = [point for point in better_approach_points[person] if point not in points_to_move_better]
+                    approach_points[person] = [point for point in approach_points[person] if point not in points_to_move_approach]
+                    points_in_fov[person].extend(points_to_move_better)
+                    points_in_fov[person].extend(points_to_move_approach)
 
-                for point in approach_points[person]:
-               #print("ponto na lista approach",file=arquivo)
-                   if any(self.is_point_back(people, point) for p in people if p != person):
-                       points_to_move_approach.append(point)
-
-                better_approach_points[person] = [point for point in better_approach_points[person] if point not in points_to_move_better]
-                approach_points[person] = [point for point in approach_points[person] if point not in points_to_move_approach]
-                points_in_fov[person].extend(points_to_move_better)
-                points_in_fov[person].extend(points_to_move_approach)
-
-        with open('teste.txt', 'a') as arquivo:
-            print(f'approach_points:{approach_points}, better:{better_approach_points}', file=arquivo)
+        #with open('teste.txt', 'a') as arquivo:
+            #print(f'approach_points:{approach_points}, better:{better_approach_points}', file=arquivo)
         
         return points_in_fov, approach_points, better_approach_points
 
