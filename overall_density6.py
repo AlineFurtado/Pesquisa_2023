@@ -300,8 +300,8 @@ class OverallDensity(object):
         angle_to_point = (angle_to_point - person_th_normalized + 3 * math.pi) % (2 * math.pi) - math.pi
 
         # Calcule os limites do campo de visão em radianos
-        lower_limit = - np.deg2rad(7)
-        upper_limit =  np.deg2rad(7)
+        lower_limit = - np.deg2rad(6)
+        upper_limit =  np.deg2rad(6)
         
         if (
                 math.isclose(lower_limit, angle_to_point, abs_tol=1e-6) or
@@ -385,14 +385,13 @@ class OverallDensity(object):
             else:
                 opposite_angle = person_th_normalized + math.pi
                 if opposite_angle > math.pi:
-                    #opposite_angle = (person.th + math.pi) % (2 * math.pi) - math.pi
                     opposite_angle -= 2 * math.pi
     
          #       print(f'angle:{np.rad2deg(angle_to_point)}', file=arquivo)
          #       print(f'opposite_angle:{np.rad2deg(opposite_angle)}', file=arquivo)
 
              # Verificar se o ângulo está na faixa oposta à orientação da pessoa com uma abertura de 60 graus
-            if (opposite_angle - math.pi / 5) <= angle_to_point <= (opposite_angle + math.pi / 5):
+            if (opposite_angle - math.pi / 4) <= angle_to_point <= (opposite_angle + math.pi / 4):
                  #print('ângulo está nas costas da pessoa', file=arquivo)
                  is_back = True
                  break  # Se estiver nas costas de uma pessoa, não é necessário verificar as outras
@@ -606,21 +605,21 @@ class OverallDensity(object):
                                     point_x = self.x[col]
                                     point_y = self.y[row]
                                     # Verifique se o ponto está no campo de visão da pessoa
-                                    if self.is_point_in_field_of_vision(person_Ocenter, point_x, point_y):
-                                        points_in_fov[person].append((point_x, point_y))
+                                    #if self.is_point_in_field_of_vision(person_Ocenter, point_x, point_y):
+                                    #    points_in_fov[person].append((point_x, point_y))
                                     if self.is_point_in_field_of_vision(person_Ocenter2, point_x, point_y):
                                         points_in_fov[person].append((point_x, point_y))
                                     # Verifique se o ponto está na região de approach da pessoa
-                                    if self.is_approach_point(person_Ocenter, point_x, point_y):
-                                        points_in_fov[person].remove((point_x, point_y))
-                                        approach_points[person].append((point_x, point_y))
+                                    #if self.is_approach_point(person_Ocenter, point_x, point_y):
+                                    #    points_in_fov[person].remove((point_x, point_y))
+                                    #    approach_points[person].append((point_x, point_y))
                                     if self.is_approach_point(person_Ocenter2, point_x, point_y):
                                         points_in_fov[person].remove((point_x, point_y))
                                         approach_points[person].append((point_x, point_y))
                                     # Verifique se o ponto está na melhor região de approach da pessoa
-                                    if self.is_better_approach_point(person_Ocenter, point_x, point_y):
-                                        approach_points[person].remove((point_x, point_y))
-                                        better_approach_points[person].append((point_x, point_y))
+                                    #if self.is_better_approach_point(person_Ocenter, point_x, point_y):
+                                    #    approach_points[person].remove((point_x, point_y))
+                                    #    better_approach_points[person].append((point_x, point_y))
                                     if self.is_better_approach_point(person_Ocenter2, point_x, point_y):
                                         approach_points[person].remove((point_x, point_y))
                                         better_approach_points[person].append((point_x, point_y))
